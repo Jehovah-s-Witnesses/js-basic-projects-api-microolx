@@ -42,9 +42,10 @@ Or just click on the stop button in the GUI interface of docker desktop
 #### Create ad(private endpoint)
 #### Edit ad(private endpoint)
 #### Archive ad(private endpoint)
+
 #### -----Work with other ads----
 #### Apply ad(you can't apply your own ad)(private endpoint). After apply ad automatically should have status Archive
-####
+#### Add or remove from favorites(private endpoint)
 
 ### Data model
 
@@ -70,3 +71,10 @@ Or just click on the stop button in the GUI interface of docker desktop
 | status      | String   | true     | Enum(Draft, Public, Archived) |
 | userId      | ObjectId | true     | owner of ad                   |
 | applierId   | ObjectId |          | who applied this ad           |
+
+#### Favorites
+
+| property | type     | required | restriction |
+|----------|----------|----------|-------------|
+| userId   | ObjectId | true     |             |
+| adId     | ObjectId | true     |             |
