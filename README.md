@@ -78,3 +78,5 @@ Or just click on the stop button in the GUI interface of docker desktop
 |----------|----------|----------|-------------|
 | userId   | ObjectId | true     |             |
 | adId     | ObjectId | true     |             |
+
+### All requests should have schemas for swagger, for response too
