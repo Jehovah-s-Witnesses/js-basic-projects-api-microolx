@@ -58,6 +58,15 @@ Or just click on the stop button in the GUI interface of docker desktop
 | email    | String   | true     | Unique  min 6, max 40 |
 | password | String   | true     | hashed  min 8, max 30 |
 
+#### Session
+
+| property     | type     | required | restrictions |
+|--------------|----------|----------|--------------|
+| _id          | ObjectId | true     | Unique       |
+| refreshToken | uuid     | true     | Unique       |
+| expiresIn    | Date     | true     | Unique       |
+| userId       | ObjectId | true     |              |
+
 #### Ad
 
 | property    | type     | required | restriction                   |

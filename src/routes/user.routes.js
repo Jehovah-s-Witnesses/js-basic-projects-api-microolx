@@ -4,8 +4,8 @@ export const userRoute = async (request, reply) => {
   const { username, email, password } = request.body;
 
   if (
-    userService.findUserByEmail(email) ||
-    userService.findUserByUsername(username)
+    (await userService.findUserByEmail(email)) ||
+    (await userService.findUserByUsername(username))
   ) {
     reply.status(400).send({ message: 'User with this data already exist' });
     return;

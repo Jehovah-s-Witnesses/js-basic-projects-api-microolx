@@ -1,5 +1,6 @@
 import { User } from '../db/User.js';
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
+import { sessionService } from './session.service.js';
 
 export const userService = {
   async createUser(email, username, password) {
@@ -18,5 +19,20 @@ export const userService = {
   },
   findUserByUsername(username) {
     return User.findOne({ username });
+  },
+  async loginUser(username, password) {
+    const currentUser = await this.findUserByUsername(username);
+
+    if (!currentUser) {
+      throw new Error('User does not exist');
+    }
+
+    const isCorrectPassword = await compare(password, currentUser.password);
+
+    if (!isCorrectPassword) {
+      throw new Error('Password is not correct!');
+    }
+
+    return sessionService.generateTokens(currentUser._id);
   },
 };
