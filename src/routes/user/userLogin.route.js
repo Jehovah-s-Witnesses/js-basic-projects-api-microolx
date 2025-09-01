@@ -1,4 +1,4 @@
-import { userService } from '../services/user.service.js';
+import { userService } from '../../services/user.service.js';
 
 export const userLoginRoute = async (request, reply) => {
   const { username, password } = request.body;
@@ -6,7 +6,7 @@ export const userLoginRoute = async (request, reply) => {
   try {
     const tokens = await userService.loginUser(username, password);
 
-    reply.status(201).send({ message: 'User success login', ...tokens });
+    reply.status(201).send({ message: 'user success login', ...tokens });
   } catch (err) {
     reply.status(400).send({ message: err.message });
   }

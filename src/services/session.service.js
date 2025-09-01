@@ -9,7 +9,6 @@ export const sessionService = {
     const accessToken = this.generateAccessToken(userId);
     const refreshToken = randomUUID();
     const expiresIn = this.generateExpiresTime();
-    console.log(userId);
     const session = new Session({
       refreshToken,
       userId,

@@ -24,7 +24,7 @@ export const userService = {
     const currentUser = await this.findUserByUsername(username);
 
     if (!currentUser) {
-      throw new Error('User does not exist');
+      throw new Error('user does not exist');
     }
 
     const isCorrectPassword = await compare(password, currentUser.password);

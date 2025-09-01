@@ -1,9 +1,10 @@
 import { initializeServer } from './initializers/initializeServer.js';
-import { userRoute } from './routes/user.routes.js';
+import { userRoute } from './routes/user/user.routes.js';
 import { Type } from '@sinclair/typebox';
-import { userLoginRoute } from './routes/userLogin.route.js';
+import { userLoginRoute } from './routes/user/userLogin.route.js';
 import { verifyAuthToken } from './hooks/verifyAuthToken.js';
-import { refreshSessionRoute } from './routes/refreshSession.route.js';
+import { refreshSessionRoute } from './routes/session/refreshSession.route.js';
+import { adRoute } from './routes/ad/ad.route.js';
 
 export const server = await initializeServer();
 
@@ -83,6 +84,57 @@ server.register(
 
     instance.register((protectedInstance, opts, done) => {
       protectedInstance.addHook('preHandler', verifyAuthToken);
+      protectedInstance.post(
+        '/ad',
+        {
+          schema: {
+            body: Type.Object({
+              title: Type.String({
+                minLength: 6,
+                maxLength: 40,
+              }),
+              description: Type.String({
+                minLength: 10,
+                maxLength: 10000,
+              }),
+              price: Type.Number({
+                minimum: 1,
+              }),
+              currency: Type.Enum({ USD: 'USD', UAH: 'UAH' }),
+              location: Type.String(),
+              status: Type.Enum({
+                Draft: 'Draft',
+                Public: 'Public',
+                Archived: 'Archived',
+              }),
+            }),
+            response: {
+              201: Type.Object({
+                title: Type.String({
+                  minLength: 6,
+                  maxLength: 40,
+                }),
+                description: Type.String({
+                  minLength: 10,
+                  maxLength: 10000,
+                }),
+                price: Type.Number({
+                  minimum: 1,
+                }),
+                currency: Type.Enum({ USD: 'USD', UAH: 'UAH' }),
+                location: Type.String(),
+                status: Type.Enum({
+                  Draft: 'Draft',
+                  Public: 'Public',
+                  Archived: 'Archived',
+                }),
+                message: Type.String(),
+              }),
+            },
+          },
+        },
+        adRoute,
+      );
       done();
     });
     done();
