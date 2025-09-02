@@ -5,7 +5,7 @@ export const verifyAuthToken = async (request, reply) => {
 
   try {
     const { userId } = await sessionService.verifyToken(authorization);
-    request.id = userId;
+    request.userId = userId;
   } catch (err) {
     reply.status(401).send({ message: 'Token is invalid!' });
   }

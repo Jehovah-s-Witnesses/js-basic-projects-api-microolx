@@ -19,9 +19,6 @@ export const sessionService = {
 
     return { accessToken, refreshToken };
   },
-  async findSessionByToken(refreshToken) {
-    await Session.findOne({ refreshToken });
-  },
   async refreshTokens(refreshToken) {
     const currentSession = await Session.findOne({ refreshToken });
 

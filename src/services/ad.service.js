@@ -24,14 +24,23 @@ export const adService = {
 
     return ad;
   },
-  async updateAd(adId, title, price, currency, location, status, userId) {
+  async updateAd(
+    adId,
+    title,
+    description,
+    price,
+    currency,
+    location,
+    status,
+    userId,
+  ) {
     if (!(await this.findAd(adId, userId))) {
       throw new Error('This ad is does not exist');
     }
 
     await Ad.updateOne(
       { _id: adId, userId },
-      { title, price, currency, location, status },
+      { title, description, price, currency, location, status },
     );
   },
   async findAd(adId, userId) {

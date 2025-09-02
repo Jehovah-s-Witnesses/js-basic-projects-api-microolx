@@ -1,12 +1,14 @@
 import { adService } from '../../services/ad.service.js';
 
-export const adRoute = async (request, reply) => {
+export const adUpdateRoute = async (request, reply) => {
   const {
-    userId,
+    params: { ad_id },
     body: { title, description, price, currency, location, status },
+    userId,
   } = request;
 
-  const ad = await adService.createAd(
+  const updatedAd = await adService.updateAd(
+    ad_id,
     title,
     description,
     price,
@@ -18,5 +20,5 @@ export const adRoute = async (request, reply) => {
 
   reply
     .status(201)
-    .send({ message: 'Ad successful created', ...ad.toObject() });
+    .send({ message: 'Ad was successful updated', ...updatedAd });
 };
