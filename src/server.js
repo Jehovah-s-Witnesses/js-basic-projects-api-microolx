@@ -1,9 +1,16 @@
 import { initializeServer } from './initializers/initializeServer.js';
-import { userRoute } from './routes/user.routes.js';
+import { userRoute } from './routes/user/user.routes.js';
 import { Type } from '@sinclair/typebox';
-import { userLoginRoute } from './routes/userLogin.route.js';
+import { userLoginRoute } from './routes/user/userLogin.route.js';
 import { verifyAuthToken } from './hooks/verifyAuthToken.js';
-import { refreshSessionRoute } from './routes/refreshSession.route.js';
+import { refreshSessionRoute } from './routes/session/refreshSession.route.js';
+import { adRoute } from './routes/ad/ad.route.js';
+import { adUpdateRoute } from './routes/ad/ad.update.route.js';
+import {
+  baseSuccessResponseSchema,
+  baseSchema,
+  updateParamsSchema,
+} from './schema/schema.js';
 
 export const server = await initializeServer();
 
@@ -76,6 +83,7 @@ server.register(
               message: Type.String(),
             }),
           },
+          tags: ['User'],
         },
       },
       refreshSessionRoute,
@@ -83,6 +91,34 @@ server.register(
 
     instance.register((protectedInstance, opts, done) => {
       protectedInstance.addHook('preHandler', verifyAuthToken);
+      protectedInstance.post(
+        '/ad',
+        {
+          schema: {
+            body: baseSchema,
+            response: {
+              201: baseSuccessResponseSchema,
+            },
+            tags: ['Ad'],
+          },
+        },
+        adRoute,
+      );
+
+      protectedInstance.put(
+        '/ad/:ad_id',
+        {
+          schema: {
+            params: updateParamsSchema,
+            body: baseSchema,
+            response: {
+              201: baseSuccessResponseSchema,
+            },
+            tags: ['Ad'],
+          },
+        },
+        adUpdateRoute,
+      );
       done();
     });
     done();

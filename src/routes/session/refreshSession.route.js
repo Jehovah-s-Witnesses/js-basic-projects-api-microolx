@@ -1,5 +1,4 @@
-import { Session } from '../db/Session.js';
-import { sessionService } from '../services/session.service.js';
+import { sessionService } from '../../services/session.service.js';
 
 export const refreshSessionRoute = async (request, reply) => {
   const { refreshToken } = request.body;

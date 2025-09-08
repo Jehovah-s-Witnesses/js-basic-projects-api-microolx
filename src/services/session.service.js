@@ -9,7 +9,6 @@ export const sessionService = {
     const accessToken = this.generateAccessToken(userId);
     const refreshToken = randomUUID();
     const expiresIn = this.generateExpiresTime();
-    console.log(userId);
     const session = new Session({
       refreshToken,
       userId,
@@ -19,9 +18,6 @@ export const sessionService = {
     await session.save();
 
     return { accessToken, refreshToken };
-  },
-  async findSessionByToken(refreshToken) {
-    await Session.findOne({ refreshToken });
   },
   async refreshTokens(refreshToken) {
     const currentSession = await Session.findOne({ refreshToken });
