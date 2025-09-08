@@ -7,11 +7,10 @@ import { refreshSessionRoute } from './routes/session/refreshSession.route.js';
 import { adRoute } from './routes/ad/ad.route.js';
 import { adUpdateRoute } from './routes/ad/ad.update.route.js';
 import {
-  baseResponseSchema,
+  baseSuccessResponseSchema,
   baseSchema,
   updateParamsSchema,
 } from './schema/schema.js';
-//import { schemaBody, schemaParams } from './schema/schema.js';
 
 export const server = await initializeServer();
 
@@ -84,6 +83,7 @@ server.register(
               message: Type.String(),
             }),
           },
+          tags: ['User'],
         },
       },
       refreshSessionRoute,
@@ -96,7 +96,10 @@ server.register(
         {
           schema: {
             body: baseSchema,
-            ...baseResponseSchema,
+            response: {
+              201: baseSuccessResponseSchema,
+            },
+            tags: ['Ad'],
           },
         },
         adRoute,
@@ -108,7 +111,10 @@ server.register(
           schema: {
             params: updateParamsSchema,
             body: baseSchema,
-            ...baseResponseSchema,
+            response: {
+              201: baseSuccessResponseSchema,
+            },
+            tags: ['Ad'],
           },
         },
         adUpdateRoute,

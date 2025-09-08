@@ -13,10 +13,6 @@ export const baseSchema = Type.Object({
   status: Type.Enum({ Draft: 'Draft', Public: 'Public', Archived: 'Archived' }),
 });
 
-export const baseResponseSchema = {
-  response: {
-    201: Type.Object({
-      message: Type.String(),
-    }),
-  },
-};
+export const baseSuccessResponseSchema = Type.Object({
+  message: Type.String(),
+});
