@@ -10,7 +10,9 @@ import {
   baseSuccessResponseSchema,
   baseSchema,
   updateParamsSchema,
+  fullResponseSchema,
 } from './schema/schema.js';
+import { getAdRoute } from './routes/ad/getAd.route.js';
 
 export const server = await initializeServer();
 
@@ -118,6 +120,36 @@ server.register(
           },
         },
         adUpdateRoute,
+      );
+
+      protectedInstance.get(
+        '/ad',
+        {
+          schema: {
+            querystring: Type.Object({
+              limit: Type.Number({ minimum: 1, maximum: 10 }),
+              offset: Type.Number({ minimum: 0 }),
+              status: Type.Optional(
+                Type.Enum({
+                  Draft: 'Draft',
+                  Public: 'Public',
+                  Archived: 'Archived',
+                }),
+              ),
+              titleQuery: Type.Optional(
+                Type.String({ minLength: 2, maxLength: 40 }),
+              ),
+            }),
+            response: {
+              200: Type.Object({
+                count: Type.Number(),
+                items: Type.Array(fullResponseSchema),
+              }),
+            },
+            tags: ['Ad'],
+          },
+        },
+        getAdRoute,
       );
       done();
     });
