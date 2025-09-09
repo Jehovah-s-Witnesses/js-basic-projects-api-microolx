@@ -1,18 +1,22 @@
 import { Ad } from '../db/Ad.js';
 
 export const adService = {
-  async getAds(userId, limit, offset, status) {
+  async getAds(userId, limit, offset, status, titleQuery) {
     const filterQuery = { userId };
 
     if (status) {
       filterQuery.status = status;
     }
 
+    if (titleQuery) {
+      filterQuery.title = new RegExp(titleQuery, 'i');
+    }
+
     const count = await Ad.countDocuments(filterQuery);
 
     const ads = await Ad.find(filterQuery).limit(limit).skip(offset);
 
-    return { items: ads, count, status };
+    return { items: ads, count };
   },
   async createAd(
     title,

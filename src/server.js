@@ -129,7 +129,16 @@ server.register(
             querystring: Type.Object({
               limit: Type.Number({ minimum: 1, maximum: 10 }),
               offset: Type.Number({ minimum: 0 }),
-              status: Type.Optional(Type.Enum({ Draft: 'Draft' })),
+              status: Type.Optional(
+                Type.Enum({
+                  Draft: 'Draft',
+                  Public: 'Public',
+                  Archived: 'Archived',
+                }),
+              ),
+              titleQuery: Type.Optional(
+                Type.String({ minLength: 2, maxLength: 40 }),
+              ),
             }),
             response: {
               200: Type.Object({
