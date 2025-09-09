@@ -1,6 +1,19 @@
 import { Ad } from '../db/Ad.js';
 
 export const adService = {
+  async getAds(userId, limit, offset, status) {
+    const filterQuery = { userId };
+
+    if (status) {
+      filterQuery.status = status;
+    }
+
+    const count = await Ad.countDocuments(filterQuery);
+
+    const ads = await Ad.find(filterQuery).limit(limit).skip(offset);
+
+    return { items: ads, count, status };
+  },
   async createAd(
     title,
     description,
