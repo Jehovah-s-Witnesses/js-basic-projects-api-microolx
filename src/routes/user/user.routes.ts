@@ -1,6 +1,9 @@
-import { userService } from '../../services/user.service.js';
+import { userService } from '../../services/user.service';
+import { RouteHandler } from 'fastify';
 
-export const userRoute = async (request, reply) => {
+export const userRoute: RouteHandler<{
+  Body: { username: string; email: string; password: string };
+}> = async (request, reply) => {
   const { username, email, password } = request.body;
 
   if (

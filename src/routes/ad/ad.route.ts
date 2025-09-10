@@ -1,6 +1,16 @@
-import { adService } from '../../services/ad.service.js';
+import { adService } from '../../services/ad.service';
+import { RouteHandler } from 'fastify';
 
-export const adRoute = async (request, reply) => {
+export const adRoute: RouteHandler<{
+  Body: {
+    title: string;
+    description: string;
+    price: number;
+    currency: string;
+    location: string;
+    status: string;
+  };
+}> = async (request, reply) => {
   const {
     userId,
     body: { title, description, price, currency, location, status },

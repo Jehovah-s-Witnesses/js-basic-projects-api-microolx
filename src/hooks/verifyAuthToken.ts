@@ -1,6 +1,9 @@
-import { sessionService } from '../services/session.service.js';
+import { sessionService } from '../services/session.service';
+import type { RouteHandler } from 'fastify';
 
-export const verifyAuthToken = async (request, reply) => {
+export const verifyAuthToken: RouteHandler<{
+  Headers: { authorization: string };
+}> = async (request, reply) => {
   const { authorization } = request.headers;
 
   try {

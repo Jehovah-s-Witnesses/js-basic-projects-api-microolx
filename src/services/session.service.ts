@@ -1,11 +1,11 @@
 import JWT from 'jsonwebtoken';
 import { randomUUID } from 'node:crypto';
-import { Session } from '../db/Session.js';
+import { Session } from '../db/Session';
 const { sign, verify } = JWT;
 const SECRET_KEY = 'SECRET';
 
 export const sessionService = {
-  async generateTokens(userId) {
+  async generateTokens(userId: string) {
     const accessToken = this.generateAccessToken(userId);
     const refreshToken = randomUUID();
     const expiresIn = this.generateExpiresTime();
@@ -19,11 +19,13 @@ export const sessionService = {
 
     return { accessToken, refreshToken };
   },
-  async refreshTokens(refreshToken) {
+  async refreshTokens(refreshToken: string) {
     const currentSession = await Session.findOne({ refreshToken });
 
     if (currentSession && +currentSession.expiresIn > Date.now()) {
-      const newAccessToken = this.generateAccessToken(currentSession.userId);
+      const newAccessToken = this.generateAccessToken(
+        currentSession.userId.toString(),
+      );
       const newRefreshToken = randomUUID();
       const expiresIn = this.generateExpiresTime();
 
@@ -39,7 +41,7 @@ export const sessionService = {
     throw new Error('Session does not exist or expired');
   },
 
-  generateAccessToken(userId) {
+  generateAccessToken(userId: string) {
     const accessToken = sign({ userId }, SECRET_KEY, {
       expiresIn: '5m',
     });
@@ -52,10 +54,10 @@ export const sessionService = {
 
     return expiresIn;
   },
-  async verifyToken(accessToken) {
-    return verify(accessToken, SECRET_KEY);
+  async verifyToken(accessToken: string) {
+    return verify(accessToken, SECRET_KEY) as { userId: string };
   },
-  async deleteSession(refreshToken) {
+  async deleteSession(refreshToken: string) {
     await Session.deleteOne({ refreshToken });
   },
 };

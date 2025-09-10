@@ -1,9 +1,9 @@
-import { User } from '../db/User.js';
+import { User } from '../db/User';
 import { compare, hash } from 'bcrypt';
-import { sessionService } from './session.service.js';
+import { sessionService } from './session.service';
 
 export const userService = {
-  async createUser(email, username, password) {
+  async createUser(email: string, username: string, password: string) {
     const user = new User({
       email,
       username,
@@ -14,13 +14,13 @@ export const userService = {
 
     return user;
   },
-  findUserByEmail(email) {
+  findUserByEmail(email: string) {
     return User.findOne({ email });
   },
-  findUserByUsername(username) {
+  findUserByUsername(username: string) {
     return User.findOne({ username });
   },
-  async loginUser(username, password) {
+  async loginUser(username: string, password: string) {
     const currentUser = await this.findUserByUsername(username);
 
     if (!currentUser) {
@@ -33,6 +33,6 @@ export const userService = {
       throw new Error('Password is not correct!');
     }
 
-    return sessionService.generateTokens(currentUser._id);
+    return sessionService.generateTokens(currentUser._id.toString());
   },
 };

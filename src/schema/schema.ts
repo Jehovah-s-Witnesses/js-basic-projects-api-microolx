@@ -1,7 +1,7 @@
 import { Type } from '@sinclair/typebox';
 
 export const updateParamsSchema = Type.Object({
-  ad_id: Type.String(),
+  adId: Type.String(),
 });
 
 export const baseSchema = Type.Object({

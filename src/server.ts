@@ -1,18 +1,19 @@
-import { initializeServer } from './initializers/initializeServer.js';
-import { userRoute } from './routes/user/user.routes.js';
+import { initializeServer } from './initializers/initializeServer';
+import { userRoute } from './routes/user/user.routes';
 import { Type } from '@sinclair/typebox';
-import { userLoginRoute } from './routes/user/userLogin.route.js';
-import { verifyAuthToken } from './hooks/verifyAuthToken.js';
-import { refreshSessionRoute } from './routes/session/refreshSession.route.js';
-import { adRoute } from './routes/ad/ad.route.js';
-import { adUpdateRoute } from './routes/ad/ad.update.route.js';
+import { userLoginRoute } from './routes/user/userLogin.route';
+import { verifyAuthToken } from './hooks/verifyAuthToken';
+import { refreshSessionRoute } from './routes/session/refreshSession.route';
+import { adRoute } from './routes/ad/ad.route';
+import { adUpdateRoute } from './routes/ad/ad.update.route';
 import {
   baseSuccessResponseSchema,
   baseSchema,
   updateParamsSchema,
   fullResponseSchema,
-} from './schema/schema.js';
-import { getAdRoute } from './routes/ad/getAd.route.js';
+} from './schema/schema';
+import { getAdRoute } from './routes/ad/getAd.route';
+import { applyAdRoute } from './routes/ad/applyAd.route';
 
 export const server = await initializeServer();
 
@@ -108,7 +109,7 @@ server.register(
       );
 
       protectedInstance.put(
-        '/ad/:ad_id',
+        '/ad/:adId',
         {
           schema: {
             params: updateParamsSchema,
@@ -150,6 +151,19 @@ server.register(
           },
         },
         getAdRoute,
+      );
+
+      protectedInstance.patch(
+        '/ad/:adId',
+        {
+          schema: {
+            params: updateParamsSchema,
+            response: {
+              400: Type.Object({ message: Type.String() }),
+            },
+          },
+        },
+        applyAdRoute,
       );
       done();
     });
