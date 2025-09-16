@@ -21,7 +21,3 @@ export const fullResponseSchema = Type.Composite([
   baseSchema,
   Type.Object({ _id: Type.String() }),
 ]);
-
-export const optionalResponseSchema = Type.Object({
-  status: Type.Optional(Type.Enum({ Draft: 'Draft' })),
-});
