@@ -16,6 +16,7 @@ import { getAdRoute } from './routes/ad/getAd.route';
 import { applyAdRoute } from './routes/ad/applyAd.route';
 import { createFavoriteRoute } from './routes/favorite/createFavorite.route';
 import { deleteFavoriteRoute } from './routes/favorite/deleteFavorite.route';
+import { getFavoritesRoute } from './routes/favorite/getFavorites.route';
 
 export const server = await initializeServer();
 
@@ -195,6 +196,26 @@ server.register(
           },
         },
         deleteFavoriteRoute,
+      );
+
+      protectedInstance.get(
+        '/favorite',
+        {
+          schema: {
+            querystring: Type.Object({
+              limit: Type.Number({ minimum: 1, maximum: 5 }),
+              offset: Type.Number({ minimum: 0 }),
+            }),
+            response: {
+              200: Type.Object({
+                count: Type.Number(),
+                items: Type.Array(fullResponseSchema),
+              }),
+            },
+            tags: ['Favorite'],
+          },
+        },
+        getFavoritesRoute,
       );
       done();
     });

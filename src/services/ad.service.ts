@@ -8,11 +8,11 @@ export const adService = {
     status?: string,
     titleQuery?: RegExp,
   ) {
-    type QueryFilter = {
+    interface QueryFilter {
       userId: string;
       status?: string;
       title?: RegExp;
-    };
+    }
 
     const filterQuery: QueryFilter = { userId };
 

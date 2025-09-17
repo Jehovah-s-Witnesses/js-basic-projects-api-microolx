@@ -31,6 +31,21 @@ export const favoriteService = {
     await favoriteAd.save();
   },
 
+  async getFavorites(userId: string, limit: number, offset: number) {
+    const filter = { userId };
+
+    const count = await Favorite.countDocuments(filter);
+
+    const favorites = await Favorite.find(filter)
+      .populate('adId')
+      .limit(limit)
+      .skip(offset);
+
+    const items = favorites.map((f) => f.adId);
+
+    return { count, items };
+  },
+
   async removeFavorite(favoriteId: string, userId: string) {
     const filter = { _id: favoriteId, userId };
     const currentFavorite = await Favorite.findOne(filter);

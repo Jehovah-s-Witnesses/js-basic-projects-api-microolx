@@ -6,7 +6,7 @@ export const getAdRoute: RouteHandler<{
     limit: number;
     offset: number;
     status: string;
-    titleQuery: string;
+    titleQuery: RegExp;
   };
 }> = async (request, reply) => {
   const {
