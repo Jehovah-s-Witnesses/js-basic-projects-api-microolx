@@ -1,6 +1,6 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, Schema, Types, InferSchemaType } from 'mongoose';
 
-const adSchema = new Schema({
+export const adSchema = new Schema({
   _id: {
     type: Types.ObjectId,
     default: () => {
@@ -44,5 +44,7 @@ const adSchema = new Schema({
     ref: 'User',
   },
 });
+
+export type AdDocument = InferSchemaType<typeof adSchema>;
 
 export const Ad = model('Ad', adSchema);

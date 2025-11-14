@@ -28,6 +28,7 @@ export const adUpdateRoute: RouteHandler<{
     status,
     userId,
   );
+  console.log(updatedAd);
   reply
     .status(201)
     .send({ message: 'Ad was successful updated', ...updatedAd });

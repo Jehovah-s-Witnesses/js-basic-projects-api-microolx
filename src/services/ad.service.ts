@@ -67,11 +67,13 @@ export const adService = {
       throw new Error('This ad is does not exist');
     }
 
-    const updatedAd = await Ad.findOneAndUpdate(
+    await Ad.updateOne(
       { _id: adId, userId },
       { title, description, price, currency, location, status },
-      { new: true },
     );
+    const updatedAd = await Ad.findOne({ _id: adId, userId }).lean();
+
+    console.log(updatedAd);
 
     return updatedAd;
   },

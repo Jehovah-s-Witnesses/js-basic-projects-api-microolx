@@ -1,5 +1,5 @@
 import { model, Schema, Types } from 'mongoose';
-import { Ad } from './Ad';
+import { Ad, adSchema } from './Ad';
 
 export const favoriteSchema = new Schema({
   _id: {
@@ -15,7 +15,7 @@ export const favoriteSchema = new Schema({
     required: true,
   },
   adId: {
-    type: Ad,
+    type: Types.ObjectId,
     ref: 'Ad',
     required: true,
   },

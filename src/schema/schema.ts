@@ -15,6 +15,13 @@ export const baseSchema = Type.Object({
 
 export const baseSuccessResponseSchema = Type.Object({
   message: Type.String(),
+  _id: Type.String(),
+  title: Type.String({ minLength: 6, maxLength: 40 }),
+  description: Type.String({ minLength: 10, maxLength: 1000 }),
+  price: Type.Number({ minimum: 1 }),
+  currency: Type.Enum({ USD: 'USD', UAH: 'UAH' }),
+  location: Type.String(),
+  status: Type.Enum({ Draft: 'Draft', Public: 'Public', Archived: 'Archived' }),
 });
 
 export const fullResponseSchema = Type.Composite([

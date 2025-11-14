@@ -1,5 +1,6 @@
 import { adService } from './ad.service';
 import { Favorite } from '../db/Favorite';
+import { AdDocument } from '../db/Ad';
 
 export const favoriteService = {
   async addFavorite(adId: string, userId: string) {
@@ -41,7 +42,7 @@ export const favoriteService = {
       .limit(limit)
       .skip(offset);
 
-    const items = favorites.map((f) => f.adId);
+    const items = favorites.map((f) => f.adId as AdDocument);
 
     return { count, items };
   },
