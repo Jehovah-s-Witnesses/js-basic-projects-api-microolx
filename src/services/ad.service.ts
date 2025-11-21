@@ -30,6 +30,29 @@ export const adService = {
 
     return { items: ads, count };
   },
+  async getPublishAds(
+    userId: string,
+    limit: number,
+    offset: number,
+    titleQuery: RegExp,
+  ) {
+    interface QueryFilter {
+      userId: { $ne: string };
+      title?: RegExp;
+    }
+
+    const filterQuery: QueryFilter = { userId: { $ne: userId } };
+
+    if (titleQuery) {
+      filterQuery.title = new RegExp(titleQuery, 'i');
+    }
+
+    const count = await Ad.countDocuments(filterQuery);
+
+    const ads = await Ad.find(filterQuery).limit(limit).skip(offset);
+
+    return { items: ads, count };
+  },
   async createAd(
     title: string,
     description: string,
