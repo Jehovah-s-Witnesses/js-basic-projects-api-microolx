@@ -17,6 +17,7 @@ import { applyAdRoute } from './routes/ad/applyAd.route';
 import { createFavoriteRoute } from './routes/favorite/createFavorite.route';
 import { deleteFavoriteRoute } from './routes/favorite/deleteFavorite.route';
 import { getFavoritesRoute } from './routes/favorite/getFavorites.route';
+import { getOtherUsersAds } from './routes/ad/getOtherUsersAds';
 
 export const server = await initializeServer();
 
@@ -154,6 +155,29 @@ server.register(
           },
         },
         getAdRoute,
+      );
+
+      protectedInstance.get(
+        '/allAds',
+        {
+          schema: {
+            querystring: Type.Object({
+              limit: Type.Number({ minimum: 1, maximum: 10 }),
+              offset: Type.Number({ minimum: 0 }),
+              titleQuery: Type.Optional(
+                Type.String({ minLength: 2, maxLength: 40 }),
+              ),
+            }),
+            response: {
+              200: Type.Object({
+                count: Type.Number(),
+                items: Type.Array(fullResponseSchema),
+              }),
+            },
+            tags: ['Ad'],
+          },
+        },
+        getOtherUsersAds,
       );
 
       protectedInstance.patch(
