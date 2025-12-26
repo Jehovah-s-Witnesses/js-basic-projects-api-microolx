@@ -1,4 +1,4 @@
-import { connectToMongoose } from '../src/initializers/connectToMongoose.js';
+import { connectToMongoose } from '../src/initializers/connectToMongoose.ts';
 import { MONGO_URI } from '../src/constants/db.js';
 import mongoose from 'mongoose';
 
